@@ -51,22 +51,35 @@ function displayWeather (weather) {
     //if (issues.length === 0) {
        // results.textContent = weather.main
       
-      //if (weather.list.date = 16:00)
+      
 
-      if (weather.list[0].dt_txt = "12:00:00") {
-       for (var i=0; i<weather.list.length; i++)
+        //temperature
+       for (var i=0; i<weather.list.length; i = i + 8) {
+        //const para = document.createElement("p").textContent.weather.list[i].main.temp + ' °C';
+        //results.appendChild(para);
+
+        results.textContent = weather.list[i].main.temp + ' °C'
         console.log(weather.list[i].main.temp + ' °C')
-        for (var i=0; i<weather.list.length; i++)
+       }
+        //humidity
+        for (var i=0; i<weather.list.length; i = i + 8) {
+        results.textContent = weather.list[i].main.humidity + ' %'
         console.log(weather.list[i].main.humidity + ' %')
-        for (var i=0; i<weather.list.length; i++)
+        }
+        //wind-speed
+        for (var i=0; i<weather.list.length; i= i + 8) {
+            results.textContent = weather.list[i].wind.speed + ' m/s'
         console.log(weather.list[i].wind.speed + ' m/s')
         //convert wind to km/hour
-        
-        for (var i=0; i<weather.list.length; i++)
+        }
+
+
+        //weather icon -- doesn't work but was working previously on for the first array
+        for (var i=0; i<weather.list.length; i = i + 8) {
         var icon = weather.list[i].weather[0].icon;
-      } else {
-        return;
-      }
+        console.log(weather.list[i].weather[0].icon);
+        }
+      
 
         //need to turn weather[0] into for loop
         var iconURL = "https://openweathermap.org/img/wn/" + icon + ".png"
@@ -79,17 +92,10 @@ function displayWeather (weather) {
         //[0].main);
         //return;
       //}
-
-      //var resultObject 
-
-      
       $.ajax({
         url: iconURL,
         method: "GET",
       }).then((icon) => {
-
-       
-
     saveToLocalStorage();
 })
 }
