@@ -15,3 +15,14 @@ body {
   .nav {
     text-align: center;
   }
+
+  .days {
+  border-radius:10px;
+  background:transparent;
+  padding: 25px;
+  margin: 25px;
+  display: flex;
+  width: 500px;
+  height: 100px;
+  border: black;
+  }
