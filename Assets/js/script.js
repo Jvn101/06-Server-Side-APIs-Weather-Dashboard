@@ -50,7 +50,7 @@ function getWeather(lat, lon) {
 function displayWeather (weather) {
     //if (issues.length === 0) {
        // results.textContent = weather.main
-      
+      var array = [{}]
       
 
         //temperature
@@ -58,20 +58,44 @@ function displayWeather (weather) {
         //const para = document.createElement("p").textContent.weather.list[i].main.temp + ' °C';
         //results.appendChild(para);
 
-        results.textContent = weather.list[i].main.temp + ' °C'
-        console.log(weather.list[i].main.temp + ' °C')
-       }
-        //humidity
-        for (var i=0; i<weather.list.length; i = i + 8) {
-        results.textContent = weather.list[i].main.humidity + ' %'
-        console.log(weather.list[i].main.humidity + ' %')
+        //getelementid("wind"+count)
+        // results.textContent += weather.list[i].main.temp + ' °C'
+
+        // results.textContent += weather.list[i].main.humidity + '%'
+
+        // results.textContent += weather.list[i].wind.speed + ' m/s'
+        // console.log(weather.list[i].main.temp + ' °C')
+
+       
+        array.push([ "Temp: " + weather.list[i].main.temp + "°C     ",  //document.write("\n")//, 
+                     "Humidity:" + weather.list[i].main.humidity + "%     ", //+ document.write("\n"),
+                     "Wind: " + weather.list[i].wind.speed + "m/s    ",]) //+ document.write("\n")])
         }
-        //wind-speed
-        for (var i=0; i<weather.list.length; i= i + 8) {
-            results.textContent = weather.list[i].wind.speed + ' m/s'
-        console.log(weather.list[i].wind.speed + ' m/s')
-        //convert wind to km/hour
-        }
+                    console.log(array[1])
+                    console.log(array[2])
+                    console.log(array[3])
+                    console.log(array[4])
+                    console.log(array[5])
+                    document.querySelector(".day1").textContent += array[1];
+                    document.querySelector(".day2").textContent += array[2];
+                    document.querySelector(".day3").textContent += array[3];
+                    document.querySelector(".day4").textContent += array[4];
+                    document.querySelector(".day5").textContent += array[5];
+
+        // set up individual sections and add them to thei respective section
+        //document.getElementById(eval("section" + i))
+       
+        // //humidity
+        // for (var i=0; i<weather.list.length; i = i + 8) {
+        // results.textContent += weather.list[i].main.humidity + ' %'
+        // console.log(weather.list[i].main.humidity + ' %')
+        // }
+        // //wind-speed
+        // for (var i=0; i<weather.list.length; i= i + 8) {
+        //     results.textContent += weather.list[i].wind.speed + ' m/s'
+        // console.log(weather.list[i].wind.speed + ' m/s')
+        // //convert wind to km/hour
+        // }
 
 
         //weather icon -- doesn't work but was working previously on for the first array
