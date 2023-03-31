@@ -4,32 +4,45 @@ var results = document.querySelector("#result-content");
 var APIKey = "72491726dc9772e5242c3f9cf4114a9e";
 var lat = "";
 var lon = "";
-var savedCities = [];
 var days = document.querySelector(".days");
 var cityName = document.querySelector("#search-input");
 var saveSearch = document.querySelector("#previous-searches");
 
+cityName.addEventListener("input", function(event) {
+  const inputValue = event.target.value
+
+  if (/\d/.test(inputValue)) {
+    alert('please user letters only')
+    event.target.value = inputValue.replace(/\d/g, '')
+  }
+})
 
 function getCoords(event) {
   event.preventDefault();
   var cityName = document.querySelector("#search-input").value;
+
 
   var cityURL =
     "http://api.openweathermap.org/geo/1.0/direct?q=" +
     cityName +
     "&appid=" +
     APIKey;
+  
 
   fetch(cityURL)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      const city = { name: data[0].name, lat: data[0].lat, lon: data[0].lon };
-      console.log(city);
-
+        const city = {name: data[0].name, lat: data[0].lat, lon: data[0].lon}
+        console.log(city)
+        //if (city == null){
+          //window.alert("City is invalid");
+          
+      //}
       getWeather(city.lat, city.lon);
       saveToLocalStorage(city);
+      
     })
     .catch((error) => {
       console.error("error:", error);
@@ -50,6 +63,7 @@ function getWeather(lat, lon) {
       return response.json();
     })
     .then(function (weather) {
+      
       displayWeather(weather);
     })
     .catch((error) => {
@@ -58,10 +72,15 @@ function getWeather(lat, lon) {
 }
 
 function displayWeather(weather) {
+  //var weather = JSON.parse(localStorage.getItem("weatherData"))
+  //console.log(weather);
+  //forecastTable.innerHTML = "";
 
   days.innerHTML = "";
   for (var i = 0; i < weather.list.length; i = i + 8) {
-
+    //(`date-${[i]}`);
+    //let array = []
+    
     var date = document.createElement("h3");
     var weatherIconImage = document.createElement("img");
     var temp = document.createElement("p");
@@ -71,85 +90,96 @@ function displayWeather(weather) {
       "https://openweathermap.org/img/wn/" +
       weather.list[i].weather[0].icon +
       ".png";
+     
+    
+     date.textContent = moment(weather.list[i].dt_txt).format(
+        "DD/MM/YYYY"
+      );
+      weatherIconImage.setAttribute("src", link);
+      temp.textContent =
+        "Temp: " + weather.list[i].main.temp + "°C     ";
+      humidity.textContent =
+        "Humidity: " + weather.list[i].main.humidity + "%";
+      wind.textContent =
+        "Wind: " + weather.list[i].wind.speed + "m/s    ";
+        
+      var weatherCard = document.createElement("div")  
+        weatherCard.appendChild(date)
+        weatherCard.appendChild(weatherIconImage)
+        weatherCard.appendChild(temp)
+        weatherCard.appendChild(humidity)
+        weatherCard.appendChild(wind)
 
-    date.textContent = moment(weather.list[i].dt_txt).format("DD/MM/YYYY");
-    weatherIconImage.setAttribute("src", link);
-    temp.textContent = "Temp: " + weather.list[i].main.temp + "°C     ";
-    humidity.textContent = "Humidity: " + weather.list[i].main.humidity + "%";
-    wind.textContent = "Wind: " + weather.list[i].wind.speed + "m/s    ";
+        days.appendChild(weatherCard)
 
-    var weatherCard = document.createElement("div");
-    weatherCard.appendChild(date);
-    weatherCard.appendChild(weatherIconImage);
-    weatherCard.appendChild(temp);
-    weatherCard.appendChild(humidity);
-    weatherCard.appendChild(wind);
 
-    days.appendChild(weatherCard);
+
+
+
+      
+    //forecastTable.appendChild(forecastObject);
+    //var forecastTable = JSON.parse(localStorage.getItem("Hours")) || {}
+    //var saveSearch = document.querySelector("#previous-searches");
+
+  
   }
 }
 
-
+//var saveSearch = document.querySelector("#previous-searches");
 function saveToLocalStorage(city) {
-  var cityarray = JSON.parse(localStorage.getItem("cities")) || [];
+  //var forecastTable = localStorage.setItem("weather", JSON.stringify(forecastTable));
+  //console.log(localStorage.setItem("weather", JSON.stringify(forecastTable)));
+  // var cityarray = JSON.parse(localStorage.getItem("cities"))
 
-  if (!cityarray) {
-    cityarray = [];
-    cityarray.push(city);
-  localStorage.setItem("cities", JSON.stringify(cityarray));
-  } else if (cityarray.includes(city.name)) {
-    for (i=0; i<cityarray.length; i++)
-    return;
-    } else {
-  cityarray.push(city);
-  localStorage.setItem("cities", JSON.stringify(cityarray));
-  createButton(city);
-}
-}
+ //make sure city deosn't exist before pushing
+ // if city array exists, return else 
 
 
-function createButton(cityarray, city) {
-  console.log(cityarray);
-  var button = document.createElement("button");
-  console.log(button);
-  button.textContent = city.name;
-  button.dataset.lat = city.lat;
-  button.dataset.lon = city.lon;
-  saveSearch.appendChild(button);
+  // savedCities.push(city)
+  // localStorage.setItem("cities", JSON.stringify(savedCities))
+
+  createButton(city)
+  
 }
 
-function getHistory(event) {
-  //make sure event target is a button and not a div
-  getWeather(event.target.dataset.lat, event.target.dataset.lon);
-  console.log("click");
+// on refresh populate local storage
+function createButton(city) {
+  var savedCities = JSON.parse(localStorage.getItem('cities')) || [];
+
+  savedCities.push(city)
+
+
+  localStorage.setItem('cities', JSON.stringify(savedCities))
+
+  savedCities.forEach(city => {
+    var button = document.createElement("button");
+    button.textContent= city.name
+    button.dataset.lat = city.lat
+    button.dataset.lon = city.lon
+  
+    saveSearch.appendChild(button)
+  })
+  // have a function that renders whats in teh lcoal storage
+  // have a function that updates the local storage
+  //uder input, add and display
+  //document.body.appendChild(button);
+  //savedCities = JSON.parse(localStorage.getItem(cityName));
+  //button.textContent = savedCities
+
+  //button.textContent = JSON.parse(localStorage.getItem("cityNames"))
+  //console.log(savedCities)
+  //console.log(button)
 }
 
-window.onload = function buttonOnLoad(city) {
-  //console.log(savedSearch)
-  var savedSearch = JSON.parse(localStorage.getItem("cities"));
-
-  if (savedSearch !== null) {
-    for (let i = 0; i < savedSearch.length; i++) {
-      var button = document.createElement("button");
-      button.textContent = savedSearch[i].name;
-      button.dataset.lat = savedSearch[i].lat;
-      button.dataset.lon = savedSearch[i].lon;
-      saveSearch.appendChild(button);
-    }
-  } else {
-    return;
-  }
-};
+function getHistory (event) {
+   
+    getWeather(event.target.dataset.lat, event.target.dataset.lon)
+    console.log("click")
+}
 
 document.querySelector(".btn-info").addEventListener("click", getCoords);
-saveSearch.addEventListener("click", getHistory);
+saveSearch.addEventListener("click", getHistory)
 
-
-
-
-
-
-// document.createElement("button").textContent= localStorage.setItem("cities", JSON.stringify(cityarray))
 //if (issues.length === 0) {
 // results.textContent = weather.main
 //for (var i = 0; i < weather.list.length; i = i + 8) {
@@ -311,58 +341,3 @@ saveSearch.addEventListener("click", getHistory);
 //     displayWeather(weather);
 // });
 // }
-
-
-//cityName.addEventListener("input", function(event) {
-//const inputValue = event.target.value
-
-//if (/\d/.test(inputValue)) {
-//  alert('please user letters only')
-// event.target.value = inputValue.replace(/\d/g, '')
-//}
-//})
-
-//pull local storage, iteate over array array and pass each value into create city button
-
-//var savedCities = JSON.parse(localStorage.getItem('cities')) || [];
-
-//savedCities.push(city)
-
-//localStorage.setItem('cities', JSON.stringify(savedCities))
-
-//savedCities.forEach(city => {
-
-// })
-// have a function that renders whats in teh lcoal storage
-// have a function that updates the local storage
-//uder input, add and display
-//document.body.appendChild(button);
-//savedCities = JSON.parse(localStorage.getItem(cityName));
-//button.textContent = savedCities
-
-//button.textContent = JSON.parse(localStorage.getItem("cityNames"))
-//console.log(savedCities)
-//console.log(button)
-
-//for (i=0; i<cityarray.length; i++)
-//if (cityarray[i].name.includes(city.name)) {
-// return;
-//} else {
-
-//}
-
-//var weather = JSON.parse(localStorage.getItem("weatherData"))
-  //console.log(weather);
-  //forecastTable.innerHTML = "";
-
-
-   //forecastTable.appendChild(forecastObject);
-    //var forecastTable = JSON.parse(localStorage.getItem("Hours")) || {}
-    //var saveSearch = document.querySelector("#previous-searches");
-
-    // var forecastTable = localStorage.setItem("weather", JSON.stringify(forecastTable));
-  //console.log(localStorage.setItem("weather", JSON.stringify(forecastTable)));
-
-  //(`date-${[i]}`);
-    //let array = []
-    
