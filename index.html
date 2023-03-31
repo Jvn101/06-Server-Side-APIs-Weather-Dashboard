@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./Assets/css/style.css" />
 </head>
 
-<body>
+<body class="vh-100" style="background-color: #4B515D;">
 
     <div class="nav">
         <h1> Weather DashBoard </h1>
@@ -18,26 +18,31 @@
     <div class="col-12 col-md-3 bg-light p-3">
       <h1 class="text-primary">Search for a City:</h1>
       <form id="search-form" class="mb-2">
+        <span class="input">
         <input id="search-input" class="form-input w-100" type="text" placeholder="San Diego" required>
-        <button class="btn btn-info btn-block">Search</button>
+      </span>
+        <button class="btn btn-info btn-block" role="button">Search</button>
       </form>
     </div>
 
-    <div class="col-12 col-md-9 p-3 text-light">
+    <div class="col-12 col-md-9 p-3 text-light ">
       <h2>Showing results for <span id="result-text"></span></h2>
       <div id="result-content"></div>
       <div class="container cityList"></div>
       
   </div>
-
-  <div class="days">
-    </div>
+ <div class="card" class="display-4 mb-0 font-weight-bold" >
+  <div class="card-body p-4">
+  <div class="days"></div>
+  </div>
+</div>
 
     <div id="previous-searches"></div>
 
+    <button id="delete" class="btn" role="button" class="hidden">Clear History</button>
    <script src="./Assets/js/script.js"></script>
    <script src="https://momentjs.com/downloads/moment.js"></script>
-   <!-- <script src="./Assets/js/fun.js"></script> -->
+   <script src="./Assets/js/fun.js"></script>
 </body>
 
 </html>

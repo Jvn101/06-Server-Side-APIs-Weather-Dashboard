@@ -9,8 +9,7 @@ var days = document.querySelector(".days");
 var cityName = document.querySelector("#search-input");
 var saveSearch = document.querySelector("#previous-searches");
 
-
-function getCoords(event) {
+async function getCoords(event) {
   event.preventDefault();
   var cityName = document.querySelector("#search-input").value;
 
@@ -19,21 +18,41 @@ function getCoords(event) {
     cityName +
     "&appid=" +
     APIKey;
+  const response = await fetch(cityURL);
+  console.log("RESPONSE>>>", response);
+  if (!response.ok) {
+    alert("that is not a valid city");
+    return;
+  }
+  const data = await response.json();
+  console.log("DATA>>>", data);
+  if (!data.length) {
+    alert("input not valid");
+    return;
+  }
+  const city = { name: data[0].name, lat: data[0].lat, lon: data[0].lon };
+  console.log(city);
 
-  fetch(cityURL)
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      const city = { name: data[0].name, lat: data[0].lat, lon: data[0].lon };
-      console.log(city);
+  getWeather(city.lat, city.lon);
+  saveToLocalStorage(city);
 
-      getWeather(city.lat, city.lon);
-      saveToLocalStorage(city);
-    })
-    .catch((error) => {
-      console.error("error:", error);
-    });
+  // fetch(cityURL)
+  //   .then(function (response) {
+  // if(!response.ok){
+  //   throw new Error("That is not a valid city")
+  // }
+  //     return response.json();
+  //   })
+  //   .then(function (data) {
+  //     const city = { name: data[0].name, lat: data[0].lat, lon: data[0].lon };
+  //     console.log(city);
+
+  //     getWeather(city.lat, city.lon);
+  //     saveToLocalStorage(city);
+  //   })
+  //   .catch((error) => {
+  //     console.error("error:", error);
+  //   });
 }
 
 function getWeather(lat, lon) {
@@ -58,10 +77,8 @@ function getWeather(lat, lon) {
 }
 
 function displayWeather(weather) {
-
   days.innerHTML = "";
   for (var i = 0; i < weather.list.length; i = i + 8) {
-
     var date = document.createElement("h3");
     var weatherIconImage = document.createElement("img");
     var temp = document.createElement("p");
@@ -89,29 +106,62 @@ function displayWeather(weather) {
   }
 }
 
-
 function saveToLocalStorage(city) {
+  console.log("HELLLOO!!O!O!O!O!O!O!!!");
   var cityarray = JSON.parse(localStorage.getItem("cities")) || [];
 
   if (!cityarray) {
     cityarray = [];
-  } else if (localStorage.getItem('cities') === (city.name)) {
-    //localStorage.includes(city.name)) { console.log(cityarray)
-    return;
-  } else {
-    cityarray.push(city);
-  localStorage.setItem("cities", JSON.stringify(cityarray));
-  //} else if (cityarray.includes(city.name)) {
-   // for (i=0; i<cityarray.length; i++)
-   // return;
-   // } else {
-  //cityarray.push(city);
-  //localStorage.setItem("cities", JSON.stringify(cityarray));
-  createButton(city);
   }
+
+  for (i = 0; i < cityarray.length; i++) {
+    if (city.name == cityarray[i].name) {
+      return;
+    }
+  }
+  cityarray.push(city);
+  localStorage.setItem("cities", JSON.stringify(cityarray));
+  createButton(city);
 }
 
+var deleteElement = document.querySelector("#delete");
 
+function deleteButton() {
+  console.log("just from loading");
+  localStorage.setItem("cities", JSON.stringify([]));
+  saveSearch.innerHTML = "";
+  days.innerHTML = "";
+  deleteElement.classList.add("hidden");
+}
+
+deleteElement.addEventListener("click", deleteButton);
+
+//if (localStorage.getItem('cities')) {
+//cityarray = JSON.parse(localStorage.getItem("cities"))
+//const DuplicatedIndex = cityarray.findIndex(cityarray => cityarray.name == cityarray.name)
+
+//if(DuplicatedIndex == -1) {
+//cityarray.push(city);
+//} else {
+// cityarray[DuplicatedIndex] = cityarray.name
+//}
+//localStorage.setItem("cities", JSON.stringify(cityarray));
+//} else {
+
+//createButton(city);
+//} else if (localStorage.getItem('cities') === (city.name)) {
+//localStorage.includes(city.name)) { console.log(cityarray)
+//return;
+//} else {
+
+// }
+
+//} else if (cityarray.includes(city.name)) {
+// for (i=0; i<cityarray.length; i++)
+// return;
+// } else {
+//cityarray.push(city);
+//localStorage.setItem("cities", JSON.stringify(cityarray));
 
 function createButton(cityarray) {
   console.log(cityarray);
@@ -121,6 +171,7 @@ function createButton(cityarray) {
   button.dataset.lat = cityarray.lat;
   button.dataset.lon = cityarray.lon;
   saveSearch.appendChild(button);
+  deleteElement.classList.remove("hidden");
 }
 
 function getHistory(event) {
@@ -133,26 +184,30 @@ window.onload = function buttonOnLoad(city) {
   //console.log(savedSearch)
   var savedSearch = JSON.parse(localStorage.getItem("cities"));
 
-  if (savedSearch !== null) {
-    for (let i = 0; i < savedSearch.length; i++) {
-      var button = document.createElement("button");
-      button.textContent = savedSearch[i].name;
-      button.dataset.lat = savedSearch[i].lat;
-      button.dataset.lon = savedSearch[i].lon;
-      saveSearch.appendChild(button);
-    }
-  } else {
+  if (!savedSearch || !savedSearch.length) {
     return;
   }
+
+  deleteElement.classList.remove("hidden");
+  for (let i = 0; i < savedSearch.length; i++) {
+    var button = document.createElement("button");
+    button.textContent = savedSearch[i].name;
+    button.dataset.lat = savedSearch[i].lat;
+    button.dataset.lon = savedSearch[i].lon;
+    saveSearch.appendChild(button);
+  }
 };
+// cityName.addEventListener("input", function(event) {
+//   const inputValue = event.target.value
+
+//   if (/\d/.test(inputValue)) {
+//     alert('please user letters only')
+//     event.target.value = inputValue.replace(/\d/g, '')
+//   }
+// })
 
 document.querySelector(".btn-info").addEventListener("click", getCoords);
 saveSearch.addEventListener("click", getHistory);
-
-
-
-
-
 
 // document.createElement("button").textContent= localStorage.setItem("cities", JSON.stringify(cityarray))
 //if (issues.length === 0) {
@@ -317,7 +372,6 @@ saveSearch.addEventListener("click", getHistory);
 // });
 // }
 
-
 //cityName.addEventListener("input", function(event) {
 //const inputValue = event.target.value
 
@@ -357,17 +411,15 @@ saveSearch.addEventListener("click", getHistory);
 //}
 
 //var weather = JSON.parse(localStorage.getItem("weatherData"))
-  //console.log(weather);
-  //forecastTable.innerHTML = "";
+//console.log(weather);
+//forecastTable.innerHTML = "";
 
+//forecastTable.appendChild(forecastObject);
+//var forecastTable = JSON.parse(localStorage.getItem("Hours")) || {}
+//var saveSearch = document.querySelector("#previous-searches");
 
-   //forecastTable.appendChild(forecastObject);
-    //var forecastTable = JSON.parse(localStorage.getItem("Hours")) || {}
-    //var saveSearch = document.querySelector("#previous-searches");
+// var forecastTable = localStorage.setItem("weather", JSON.stringify(forecastTable));
+//console.log(localStorage.setItem("weather", JSON.stringify(forecastTable)));
 
-    // var forecastTable = localStorage.setItem("weather", JSON.stringify(forecastTable));
-  //console.log(localStorage.setItem("weather", JSON.stringify(forecastTable)));
-
-  //(`date-${[i]}`);
-    //let array = []
-    
+//(`date-${[i]}`);
+//let array = []
