@@ -95,26 +95,31 @@ function saveToLocalStorage(city) {
 
   if (!cityarray) {
     cityarray = [];
+  } else if (localStorage.getItem('cities') === (city.name)) {
+    //localStorage.includes(city.name)) { console.log(cityarray)
+    return;
+  } else {
     cityarray.push(city);
   localStorage.setItem("cities", JSON.stringify(cityarray));
-  } else if (cityarray.includes(city.name)) {
-    for (i=0; i<cityarray.length; i++)
-    return;
-    } else {
-  cityarray.push(city);
-  localStorage.setItem("cities", JSON.stringify(cityarray));
+  //} else if (cityarray.includes(city.name)) {
+   // for (i=0; i<cityarray.length; i++)
+   // return;
+   // } else {
+  //cityarray.push(city);
+  //localStorage.setItem("cities", JSON.stringify(cityarray));
   createButton(city);
-}
+  }
 }
 
 
-function createButton(cityarray, city) {
+
+function createButton(cityarray) {
   console.log(cityarray);
   var button = document.createElement("button");
   console.log(button);
-  button.textContent = city.name;
-  button.dataset.lat = city.lat;
-  button.dataset.lon = city.lon;
+  button.textContent = cityarray.name;
+  button.dataset.lat = cityarray.lat;
+  button.dataset.lon = cityarray.lon;
   saveSearch.appendChild(button);
 }
 
