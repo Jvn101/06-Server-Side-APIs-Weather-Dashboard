@@ -1,5 +1,7 @@
 body {
     font-family: 'Fira Sans', sans-serif;
+    height: 300%;
+    background: linear-gradient(90deg, #7474BF 10%, #348AC7 90%);
   }
   
   h1,
@@ -13,20 +15,123 @@ body {
   }
   
   .nav {
+    /* code sourced from https://blog.avada.io/css/input-text*/
     text-align: center;
-  }
+      background-color: #48b6b6;
+      color: #fffff0;
+      top: 0;
+      margin: 0px;
+      transform: scale(.993, .94); 
+      transition:.5s,.25s;
+      opacity: 0; 
+      position:absolute;
+      z-index: 0; 
+      margin:4px; 
+      left:0;
+      top:0;
+      right:0;
+      bottom:0;
+      border-radius: inherit;
+      pointer-events: none; 
+      box-shadow: inset 0 0 0 3px #fff,
+        0 0 0 4px #fff,
+        3px -3px 30px #1beabd, 
+        -3px 3px 30px #10abff;
+    position:relative;
+    font-size: 1.5em;
+    background: linear-gradient(21deg, #10abff, #1beabd);
+    padding: 3px;
+    display: inline-block;
+    border-radius: 9999em;
+      position: relative;
+      display: inherit;
+      border-radius: inherit;
+      margin: 0;
+      border: none;
+      outline: none;
+      padding: 0 .325em;
+      z-index: 1; 
+        opacity: 1;
+        transform: scale(1);
+    }
+      
+  
 
   .days {
   border-radius:10px;
-  background:transparent;
+  background:white;
   padding: 25px;
   margin: 25px;
   display: flex;
-  width: 500px;
-  height: 100px;
+  width: 700px;
+  height: 250px;
   border: black;
   }
 
-  #previous-searches {
-    display: inline-block;
+
+    .btn {
+      background-color: #fff;
+      border: 1px solid #d5d9d9;
+      border-radius: 8px;
+      box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
+      box-sizing: border-box;
+      color: #0f1111;
+      cursor: pointer;
+      display: inline-block;
+      font-family: "Amazon Ember",sans-serif;
+      font-size: 13px;
+      line-height: 29px;
+      padding: 0 10px 0 11px;
+      position: relative;
+      text-align: center;
+      text-decoration: none;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+      vertical-align: middle;
+      width: 100px;
+    }
+    
+    .btn:hover {
+      background-color: #f7fafa;
+    }
+    
+    .btn:focus {
+      border-color: #008296;
+      box-shadow: rgba(213, 217, 217, .5) 0 2px 5px 0;
+      outline: 0;
+    }
+
+  
+
+  p {
+    width: 150px;
   }
+
+  #previous-searches {
+    /*display: flex;*/
+    position: absolute;
+    bottom: 110px;
+    background-color: aliceblue;
+  }
+
+  #delete {
+    position: absolute;
+    bottom: 70px;
+
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  @media only screen and (min-width: 993px) {
+    /* Changing the container's width for large screens. */
+    .body {
+      width: 90%;
+    }
+  }
+
+  
+    
+    
