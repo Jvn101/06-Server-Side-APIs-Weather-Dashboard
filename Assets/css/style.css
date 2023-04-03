@@ -68,6 +68,17 @@ body {
   border: black;
   }
 
+  .todayweather {
+    border-radius:10px;
+    background:white;
+    padding: 25px;
+    margin: 25px;
+    display: flex;
+    width: 150px;
+    height: 250px;
+    border: black;
+    }
+
 
     .btn {
       background-color: #fff;
@@ -90,6 +101,7 @@ body {
       touch-action: manipulation;
       vertical-align: middle;
       width: 100px;
+  
     }
     
     .btn:hover {
@@ -117,7 +129,8 @@ body {
 
   #delete {
     position: absolute;
-    bottom: 70px;
+    bottom: 542px;
+    left: 270px;
 
   }
 

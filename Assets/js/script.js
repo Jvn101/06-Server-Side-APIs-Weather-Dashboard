@@ -8,6 +8,7 @@ var savedCities = [];
 var days = document.querySelector(".days");
 var cityName = document.querySelector("#search-input");
 var saveSearch = document.querySelector("#previous-searches");
+var displayToday = document.querySelector(".todayweather")
 
 async function getCoords(event) {
   event.preventDefault();
@@ -78,7 +79,34 @@ function getWeather(lat, lon) {
 
 function displayWeather(weather) {
   days.innerHTML = "";
-  for (var i = 0; i < weather.list.length; i = i + 8) {
+  displayToday.innerHTML = "";
+
+  var link1 =
+ "https://openweathermap.org/img/wn/" +
+  weather.list[0].weather[0].icon +
+ ".png";
+  var date1 = document.createElement("h3");
+  date1.textContent = "Today: " + moment(weather.list[0].dt_txt).format("DD/MM/YYYY");
+  var icon1 = document.createElement("img");
+  icon1.setAttribute("src", link1);
+  var temp1 = document.createElement("p")
+  temp1.textContent = "Temp: " + weather.list[0].main.temp + "°C     ";
+  var humidity1 = document.createElement("p");
+  humidity1.textContent = "Humidity: " + weather.list[0].main.humidity + "%";
+  var wind1 = document.createElement("p")
+  wind1.textContent = "Wind: " + weather.list[0].wind.speed + "m/s    ";
+  
+
+  var weatherCard1 = document.createElement("div");
+    weatherCard1.appendChild(date1);
+    weatherCard1.appendChild(icon1);
+    weatherCard1.appendChild(temp1);
+    weatherCard1.appendChild(humidity1);
+    weatherCard1.appendChild(wind1);
+
+    displayToday.appendChild(weatherCard1);
+
+  for (var i = 7; i < weather.list.length; i = i + 8) {
     var date = document.createElement("h3");
     var weatherIconImage = document.createElement("img");
     var temp = document.createElement("p");
@@ -88,6 +116,7 @@ function displayWeather(weather) {
       "https://openweathermap.org/img/wn/" +
       weather.list[i].weather[0].icon +
       ".png";
+      console.log(link)
 
     date.textContent = moment(weather.list[i].dt_txt).format("DD/MM/YYYY");
     weatherIconImage.setAttribute("src", link);
@@ -107,7 +136,6 @@ function displayWeather(weather) {
 }
 
 function saveToLocalStorage(city) {
-  console.log("HELLLOO!!O!O!O!O!O!O!!!");
   var cityarray = JSON.parse(localStorage.getItem("cities")) || [];
 
   if (!cityarray) {
@@ -131,6 +159,7 @@ function deleteButton() {
   localStorage.setItem("cities", JSON.stringify([]));
   saveSearch.innerHTML = "";
   days.innerHTML = "";
+  displayToday.innerHTML = "";
   deleteElement.classList.add("hidden");
 }
 
