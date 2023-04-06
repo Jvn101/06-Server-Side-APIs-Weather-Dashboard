@@ -15,7 +15,7 @@ async function getCoords(event) {
   var cityName = document.querySelector("#search-input").value;
 
   var cityURL =
-    "http://api.openweathermap.org/geo/1.0/direct?q=" +
+    "https://api.openweathermap.org/geo/1.0/direct?q=" +
     cityName +
     "&appid=" +
     APIKey;
