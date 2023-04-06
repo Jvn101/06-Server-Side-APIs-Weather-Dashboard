@@ -19,11 +19,11 @@ This website features
  [Weather Dashboard](https://jvn101.github.io/06-Server-Side-APIs-Weather-Dashboard/)
  
 # Invalid Inputs:
-User alert when an incorrect city is entered
+A user alert appears when an incorrect city is entered
   ![User alert when an incorrect city is entered:](Assets/Images/invalid-input.png) 
 
 # Clear History Button:
-All the saved cities are deleted when the clear history button is enetered
+All the saved cities are deleted when the clear history button is entered
   ![All the saved cities are deleted when the clear history button is enetered:](Assets/Images/clear-history.png) 
   
  
