@@ -19,19 +19,16 @@ async function getCoords(event) {
     "&appid=" +
     APIKey;
   const response = await fetch(cityURL);
-  console.log("RESPONSE>>>", response);
   if (!response.ok) {
     alert("that is not a valid city");
     return;
   }
   const data = await response.json();
-  console.log("DATA>>>", data);
   if (!data.length) {
     alert("input not valid");
     return;
   }
   const city = { name: data[0].name, lat: data[0].lat, lon: data[0].lon };
-  console.log(city);
 
   getWeather(city.lat, city.lon);
   saveToLocalStorage(city);
@@ -74,7 +71,6 @@ function displayWeather(weather) {
   var humidity1 = document.createElement("p");
   var wind1 = document.createElement("p");
 
-  console.log(weather.list[0].dt_txt);
   date1.textContent = moment(weather.list[0].dt_txt).format("DD/MM/YYYY");
   day1.textContent = moment(weather.list[0].dt_txt).format("dddd");
   icon1.setAttribute("src", link1);
@@ -104,7 +100,6 @@ function displayWeather(weather) {
       "https://openweathermap.org/img/wn/" +
       weather.list[i].weather[0].icon +
       ".png";
-    console.log(link);
 
     date.textContent = moment(weather.list[i].dt_txt).format("DD/MM/YYYY");
     day.textContent = moment(weather.list[i].dt_txt).format("dddd");
@@ -144,7 +139,6 @@ function saveToLocalStorage(city) {
 }
 
 function deleteButton() {
-  console.log("just from loading");
   localStorage.setItem("cities", JSON.stringify([]));
   saveSearch.innerHTML = "";
   days.innerHTML = "";
@@ -153,9 +147,7 @@ function deleteButton() {
 }
 
 function createButton(cityarray) {
-  console.log(cityarray);
   var button = document.createElement("button");
-  console.log(button);
   button.textContent = cityarray.name;
   button.dataset.lat = cityarray.lat;
   button.dataset.lon = cityarray.lon;
@@ -166,7 +158,6 @@ function createButton(cityarray) {
 function getHistory(event) {
   //event target for city button
   getWeather(event.target.dataset.lat, event.target.dataset.lon);
-  console.log("click");
 }
 
 //Show saved cities on page refresh
