@@ -6,9 +6,8 @@ var savedCities = [];
 var days = document.querySelector(".days");
 var cityName = document.querySelector("#search-input");
 var saveSearch = document.querySelector("#previous-searches");
-var displayToday = document.querySelector(".todayweather")
+var displayToday = document.querySelector(".todayweather");
 var deleteElement = document.querySelector("#delete");
-
 
 async function getCoords(event) {
   event.preventDefault();
@@ -65,35 +64,35 @@ function displayWeather(weather) {
   displayToday.innerHTML = "";
 
   var link1 =
- "https://openweathermap.org/img/wn/" +
-  weather.list[0].weather[0].icon +
- ".png";
+    "https://openweathermap.org/img/wn/" +
+    weather.list[0].weather[0].icon +
+    ".png";
   var date1 = document.createElement("h3");
   var day1 = document.createElement("h3");
   var icon1 = document.createElement("img");
-  var temp1 = document.createElement("p")
+  var temp1 = document.createElement("p");
   var humidity1 = document.createElement("p");
-  var wind1 = document.createElement("p")
+  var wind1 = document.createElement("p");
 
-  console.log(weather.list[0].dt_txt)
+  console.log(weather.list[0].dt_txt);
   date1.textContent = moment(weather.list[0].dt_txt).format("DD/MM/YYYY");
   day1.textContent = moment(weather.list[0].dt_txt).format("dddd");
   icon1.setAttribute("src", link1);
   temp1.textContent = "Temp: " + weather.list[0].main.temp + "°C     ";
   humidity1.textContent = "Humidity: " + weather.list[0].main.humidity + "%";
   wind1.textContent = "Wind: " + weather.list[0].wind.speed + "m/s    ";
-  
+
   var weatherCard1 = document.createElement("div");
-    weatherCard1.appendChild(date1);
-    weatherCard1.appendChild(day1);
-    weatherCard1.appendChild(icon1);
-    weatherCard1.appendChild(temp1);
-    weatherCard1.appendChild(humidity1);
-    weatherCard1.appendChild(wind1);
+  weatherCard1.appendChild(date1);
+  weatherCard1.appendChild(day1);
+  weatherCard1.appendChild(icon1);
+  weatherCard1.appendChild(temp1);
+  weatherCard1.appendChild(humidity1);
+  weatherCard1.appendChild(wind1);
 
-    displayToday.appendChild(weatherCard1);
+  displayToday.appendChild(weatherCard1);
 
-    // forloop to display 5 day weather forecast
+  // forloop to display 5 day weather forecast
   for (var i = 7; i < weather.list.length; i = i + 8) {
     var date = document.createElement("h3");
     var day = document.createElement("h3");
@@ -105,7 +104,7 @@ function displayWeather(weather) {
       "https://openweathermap.org/img/wn/" +
       weather.list[i].weather[0].icon +
       ".png";
-      console.log(link)
+    console.log(link);
 
     date.textContent = moment(weather.list[i].dt_txt).format("DD/MM/YYYY");
     day.textContent = moment(weather.list[i].dt_txt).format("dddd");
@@ -152,7 +151,6 @@ function deleteButton() {
   displayToday.innerHTML = "";
   deleteElement.classList.add("hidden");
 }
-
 
 function createButton(cityarray) {
   console.log(cityarray);
