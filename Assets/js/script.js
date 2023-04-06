@@ -60,6 +60,7 @@ function displayWeather(weather) {
   days.innerHTML = "";
   displayToday.innerHTML = "";
 
+  //code to get todays weather seperately from 5 day weather forecast so different formatting/styling can be applied if desired
   var link1 =
     "https://openweathermap.org/img/wn/" +
     weather.list[0].weather[0].icon +
@@ -88,7 +89,7 @@ function displayWeather(weather) {
 
   displayToday.appendChild(weatherCard1);
 
-  // forloop to display 5 day weather forecast
+  // forloop to display 5 day weather forecast (seperate from todays weather)
   for (var i = 7; i < weather.list.length; i = i + 8) {
     var date = document.createElement("h3");
     var day = document.createElement("h3");
